@@ -70,4 +70,6 @@ ax.set_xlabel('Distance')
 ax.set_ylabel(r'Energy  [ ' + 'meV' + r' ]')
 
 # plt.legend(loc='upper left')
-plt.savefig('energy_bands.pdf', bbox_inches='tight')
+
+if __name__ == '__main__':
+    plt.savefig('energy_bands.pdf', bbox_inches='tight')
