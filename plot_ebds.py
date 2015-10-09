@@ -1,8 +1,11 @@
 import matplotlib.pyplot as plt
+import matplotlib
 import numpy as np
 
 # Matplotlib tweaks -----------------------------------------------------------
-
+matplotlib.rcParams.update({'font.size': 22})
+matplotlib.rcParams.update({'xtick.labelsize': 22})
+matplotlib.rcParams.update({'ytick.labelsize': 22})
 
 def remove_ticks(ax):
     ax.xaxis.set_ticks_position('none')
@@ -71,5 +74,21 @@ ax.set_ylabel(r'Energy  [ ' + 'meV' + r' ]')
 
 # plt.legend(loc='upper left')
 
+ax.set_ylim([-15, 44])
+ax.set_xlim([-0.5, 11])
+
+# Annotate numbers extracting the position
+# from the  plot curve and shift the y position a little
+x, y = ax.lines[0].get_data()[0], ax.lines[0].get_data()[1]
+for i in range(18):
+    ax.text(x[i], y[i] + 1.5,
+            '{}'.format(i),
+            fontsize=15,
+            horizontalalignment='center',
+            )
+
+
 if __name__ == '__main__':
-    plt.savefig('energy_bands.pdf', bbox_inches='tight')
+    plt.savefig('energy_band.pdf',
+                # dpi=500,
+                bbox_inches='tight')

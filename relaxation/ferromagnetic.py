@@ -43,8 +43,8 @@ def init_m(pos):
     x, y, z = pos
 
     return (0,
-            0.8 + np.random.randint(800, 1000) / 1000.,
-            0.8 + np.random.randint(800, 1000) / 1000.)
+            0.8,
+            0.8)
 
 
 # MESH --------------------------------------------------------------------
@@ -95,6 +95,7 @@ sim.do_precession = False
 # Relax the system
 # The last state is saved automatically and we also save every 100 steps
 # We can tune the LLG parameters and stopping criteria if necessary
+# sim.set_tols(rtol=1e-10, atol=1e-12)
 sim.relax(dt=1e-13,
           stopping_dmdt=0.01,
           max_steps=5000,

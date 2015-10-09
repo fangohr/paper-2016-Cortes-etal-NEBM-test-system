@@ -139,13 +139,15 @@ def relax_neb(k, maxst, simname, init_im, interp, save_every=10000):
                        init_images,
                        interpolations=interpolations,
                        spring=k,
-                       name=simname)
+                       name=simname,
+                       )
 
     # Finally start the energy band relaxation
     neb.relax(max_steps=maxst,
               save_vtk_steps=save_every,
               save_npy_steps=save_every,
-              stopping_dmdt=1e-2)
+              stopping_dmdt=1e-2
+              )
 
 # -----------------------------------------------------------------------------
 
