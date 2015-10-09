@@ -49,12 +49,12 @@ We provide an IPython notebook with the snapshots of the energy band images.
 In addition, we can use the output files to have a general view of the process
 where the skyrmion is destroyed:
 
-![alt text](https://github.com/fangohr/paper-2015-Cortes-etal/figs/sk-fm_NEBM.jpg "NEBM Final Step")
+![](https://github.com/fangohr/paper-2015-Cortes-etal/blob/master/figs/sk-fm_NEBM.jpg "NEBM Final Step")
 
 
 [1] Bessarab, P. F., Uzdin, V. M. & Jonsson, H. *Method for finding mechanism
 and activation energy of magnetic transitions, applied to skyrmion and
 antivortex annihilation*.  Computer Physics Communications **196**, 1–37 (2015).
-URL [http://linkinghub.elsevier.com/retrieve/pii/S0010465515002696]
+URL http://linkinghub.elsevier.com/retrieve/pii/S0010465515002696
 
 [2] Cortés-Ortuño, D. et al, ... Nature(?)
