@@ -21,7 +21,7 @@ Contact to: d.i.cortes@soton.ac.uk
 
 # FIDIMAG Simulation imports:
 from fidimag.atomistic import Sim
-from fidimag.atomistic import FDMesh
+from fidimag.common import CuboidMesh
 from fidimag.atomistic import DMI
 from fidimag.atomistic import UniformExchange
 from fidimag.atomistic import Zeeman
@@ -62,11 +62,11 @@ class Timer:
 # MESH ------------------------------------------------------------------------
 # This is a 21x21 spins in a square lattice with a lattice constant of 5
 # angstrom and PBCs
-mesh = FDMesh(nx=21, ny=21,
-              dx=0.5, dy=0.5,
-              unit_length=1e-9,
-              pbc='2d'
-              )
+mesh = CuboidMesh(nx=21, ny=21,
+                  dx=0.5, dy=0.5,
+                  unit_length=1e-9,
+                  periodicity=(True, True, False)
+                  )
 # -----------------------------------------------------------------------------
 
 
