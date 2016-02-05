@@ -21,11 +21,13 @@ Contact to: d.i.cortes@soton.ac.uk
 
 # FIDIMAG Simulation imports:
 from fidimag.atomistic import Sim
-from fidimag.atomistic import FDMesh
+from fidimag.common import CuboidMesh
 from fidimag.atomistic import DMI
 from fidimag.atomistic import UniformExchange
 from fidimag.atomistic import Zeeman
 from fidimag.atomistic import Constant
+from os import listdir
+import re
 
 # Import physical constants from fidimag
 const = Constant()
@@ -37,19 +39,28 @@ from fidimag.common.neb_cartesian import NEB_Sundials
 import numpy as np
 from matplotlib import cm
 
-mesh = FDMesh(nx=21, ny=21,
-              dx=0.5, dy=0.5,
-              unit_length=1e-9,
-              pbc='2d'
-              )
+mesh = CuboidMesh(nx=21, ny=21,
+                  dx=0.5, dy=0.5,
+                  unit_length=1e-9,
+                  periodicity=(True, True, False)
+                  )
 
 # Initialise a simulation object and load the skyrmion
 # or ferromagnetic states
 sim = Sim(mesh, name='neb_21x21-spins_fm-sk_atomic')
 
-sk = '../npys/neb_21x21-spins_fm-sk_atomic_k1e10_239/image_0.npy'
-fm = '../npys/neb_21x21-spins_fm-sk_atomic_k1e10_239/image_17.npy'
-ds = '../npys/neb_21x21-spins_fm-sk_atomic_k1e10_239/image_11.npy'
+# Get the directories inside the npys folder from the NEBM simulation
+# and sort them by the last number (after the k magnitude)
+npys_folder = '../../npys/'
+files_list = listdir(npys_folder)
+files_list = sorted(files_list,
+                    key=lambda f: int(re.search(r'(?<=k1e10_)[0-9]+', f).group(0))
+                    )
+
+# Use the largest step from the files directory
+sk = npys_folder + files_list[-1] + '/image_0.npy'
+fm = npys_folder + files_list[-1] + '/image_17.npy'
+ds = npys_folder + files_list[-1] + '/image_11.npy'
 
 states = {'skyrmion': sk, 'ferromagnetic': fm, 'destruction': ds}
 
@@ -57,7 +68,7 @@ for key in states.keys():
     sim.set_m(np.load(states[key]))
 
     # Append coordinates and spin orientations
-    data = np.append(np.array(sim.mesh.pos),
+    data = np.append(np.array(sim.mesh.coordinates),
                      sim.spin.reshape(-1, 3), axis=1)
 
     # Get the colormap using the last row, i.e. mz
@@ -79,7 +90,9 @@ for key in states.keys():
         # system: x --> -z, y --> x, x --> y
         line += '{},{},{},'.format(-row[2], row[1], row[0])
         # The same for the spins orientations
-        line += '{},{},{},'.format(-row[5], row[4], row[3])
+        # but somehow, Povray's left handed system gives the wrong directions
+        # if we do not correct the sign of the Y, Z components (?)
+        line += '{},{},{},'.format(-row[5], -row[4], -row[3])
 
         # Now the colours
         for num in row[6:]:
