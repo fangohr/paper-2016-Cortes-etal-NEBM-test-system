@@ -45,7 +45,7 @@ data1e10_dms *= x_scale
 # (the extremes are energy minima). It is only necessary to
 # sum the distances up an specific point
 dms10 = [0]
-for i in xrange(len(data1e10_dms)):
+for i in range(len(data1e10_dms)):
     dms10.append(np.sum(data1e10_dms[:i + 1]))
 
 # -----------------------------------------------------------------------------

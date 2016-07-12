@@ -28,10 +28,8 @@ from fidimag.common import CuboidMesh
 from fidimag.atomistic import DMI
 from fidimag.atomistic import UniformExchange
 from fidimag.atomistic import Zeeman
-from fidimag.atomistic import Constant
-
 # Import physical constants from fidimag
-const = Constant()
+import fidimag.common.constant as const
 
 
 # Define an initial state for the magnetisation as a function of space

@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 """
 
 NEB Simulation for a toy model made of Fe-like atoms arranged in a square
@@ -19,16 +21,15 @@ Contact to: d.i.cortes@soton.ac.uk
 
 """
 
+
 # FIDIMAG Simulation imports:
 from fidimag.atomistic import Sim
 from fidimag.common import CuboidMesh
 from fidimag.atomistic import DMI
 from fidimag.atomistic import UniformExchange
 from fidimag.atomistic import Zeeman
-from fidimag.atomistic import Constant
-
 # Import physical constants from fidimag
-const = Constant()
+import fidimag.common.constant as const
 
 # Import the NEB method
 from fidimag.common.neb_cartesian import NEB_Sundials
@@ -170,7 +171,7 @@ sk_npys = sorted(os.listdir(basedir_sk),
 fm_npys = sorted(os.listdir(basedir_fm),
                  key=lambda x: int(x[2:-4]))
 
-print basedir_sk + sk_npys[-1]
+print(basedir_sk + sk_npys[-1])
 
 # listdir only gives the file names so we add the base directory
 init_im = [np.load(basedir_sk + sk_npys[-1]),
@@ -204,7 +205,7 @@ t = Timer()
 
 # We will do a simulation for every k
 for k in krange:
-    print 'Computing for k = {}'.format(k)
+    print('Computing for k = {}'.format(k))
     # Initialise the timer
     t.start()
 
