@@ -2,14 +2,17 @@ from __future__ import print_function
 
 """
 
-NEBM Simulation for a toy model made of Fe-like atoms arranged in a square
-lattice. This system is described by 21 x 21 spins with interfacial DMI
+Climbing image NEBM (CI-NEBM) Simulation for a toy model made of Fe-like atoms
+arranged in a square lattice. This system is described by 21 x 21 spins with
+interfacial DMI
 
-A very strong magnetic field B is applied perpendicular to the sample, which
-stabilises a metastable skyrmion. The ground state is the uniform state.
-
-For the NEBM we use Geodesic distances and vector projections into the tangents
-space
+To observe the effect of the climbing technique, we firstly relax the band with
+a very small stopping criteria for the algorithm, generating a poor resolution
+around the saddle point. Consequently, we take the relaxed band as initial
+state for the climbing image algorithm, using the 12th image as the climbing
+image, since it has the largest energy. We recommend running the
+generate_GIF_climbing_image.py script after the simulation finishes to see the
+effect of the CI-NEBM.
 
 Magnetic parameters:
     J = 10 meV      Exchange
@@ -40,7 +43,6 @@ from fidimag.common.nebm_geodesic import NEBM_Geodesic
 # Numpy utilities
 import numpy as np
 
-
 # MESH ------------------------------------------------------------------------
 # This is a 21x21 spins in a square lattice with a lattice constant of 5
 # angstrom and PBCs
@@ -55,7 +57,9 @@ mesh = CuboidMesh(nx=21, ny=21,
 # NEBM Simulation Function ----------------------------------------------------
 
 def relax_neb(k, maxst, simname, init_im, interp,
-              save_every=10000, stopping_dYdt=0.01):
+              save_every=10000, stopping_dYdt=0.01,
+              climbing_image=None
+              ):
     """
     Execute a simulation with the NEBM algorithm of the FIDIMAG code
     Here we use always the 21x21 Spins Mesh and don't vary the material
@@ -123,6 +127,7 @@ def relax_neb(k, maxst, simname, init_im, interp,
                         interpolations=interpolations,
                         spring_constant=k,
                         name=simname,
+                        climbing_image=climbing_image
                         )
 
     # Finally start the energy band relaxation
@@ -177,10 +182,25 @@ init_im = [np.load(basedir_sk + sk_npys[-1]),
 # So we will have 18 images in total in the Energy Band
 interp = [16]
 
-# Relax the NEBM simulation with a spring constant of k=1e4
+# Over-relax the band with a very small dYdt
 relax_neb(1e4, 2000,
-          'neb_21x21-spins_fm-sk_atomic_k1e4',
+          'relax_neb_21x21-spins_fm-sk_atomic_k1e4',
           init_im,
           interp,
-          save_every=200,
+          stopping_dYdt=1e-5
+          )
+
+
+# Now we set the relaxed band as initial state
+init_im = [np.load('npys/relax_neb_21x21-spins_fm-sk_atomic_k1e4_169/'
+                   'image_{:06}.npy'.format(i)) for i in range(18)]
+
+# The 12th image is the one with largest energy, we make it climb up
+# in energy along the band
+relax_neb(1e4, 2000,
+          'climbing_image_neb_21x21-spins_fm-sk_atomic_k1e4',
+          init_im,
+          None,
+          stopping_dYdt=1e-5,
+          climbing_image=12
           )
