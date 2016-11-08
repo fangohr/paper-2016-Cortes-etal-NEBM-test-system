@@ -54,7 +54,7 @@ sim = Sim(mesh, name='neb_21x21-spins_fm-sk_atomic')
 npys_folder = '../../npys/'
 files_list = listdir(npys_folder)
 files_list = sorted(files_list,
-                    key=lambda f: int(re.search(r'(?<=k1e10_)[0-9]+', f).group(0))
+                    key=lambda f: int(re.search(r'(?<=k1e4_)[0-9]+', f).group(0))
                     )
 
 # Use the largest step from the files directory
