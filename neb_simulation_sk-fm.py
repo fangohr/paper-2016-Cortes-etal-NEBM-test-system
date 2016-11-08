@@ -2,11 +2,14 @@ from __future__ import print_function
 
 """
 
-NEB Simulation for a toy model made of Fe-like atoms arranged in a square
+NEBM Simulation for a toy model made of Fe-like atoms arranged in a square
 lattice. This system is described by 21 x 21 spins with interfacial DMI
 
 A very strong magnetic field B is applied perpendicular to the sample, which
 stabilises a metastable skyrmion. The ground state is the uniform state.
+
+For the NEBM we use Geodesic distances and vector projections into the tangents
+space
 
 Magnetic parameters:
     J = 10 meV      Exchange
@@ -15,7 +18,7 @@ Magnetic parameters:
     mu_s = 2 mu_B   Magnetic moment
 
 
-Created by David Cortes on Fri 02 Oct 2015
+Updated by David Cortes on Tue 08 Nov 2016
 University of Southampton
 Contact to: d.i.cortes@soton.ac.uk
 
@@ -32,7 +35,7 @@ from fidimag.atomistic import Zeeman
 import fidimag.common.constant as const
 
 # Import the NEB method
-from fidimag.common.neb_cartesian import NEB_Sundials
+from fidimag.common.nebm_geodesic import NEBM_Geodesic
 
 # Numpy utilities
 import numpy as np
@@ -73,7 +76,8 @@ mesh = CuboidMesh(nx=21, ny=21,
 
 # NEBM Simulation Function ----------------------------------------------------
 
-def relax_neb(k, maxst, simname, init_im, interp, save_every=10000):
+def relax_neb(k, maxst, simname, init_im, interp,
+              save_every=10000, stopping_dYdt=0.01):
     """
     Execute a simulation with the NEBM algorithm of the FIDIMAG code
     Here we use always the 21x21 Spins Mesh and don't vary the material
@@ -136,18 +140,18 @@ def relax_neb(k, maxst, simname, init_im, interp, save_every=10000):
 
     # Start a NEB simulation passing the Simulation object and all the NEB
     # parameters
-    neb = NEB_Sundials(sim,
-                       init_images,
-                       interpolations=interpolations,
-                       spring=k,
-                       name=simname,
-                       )
+    neb = NEBM_Geodesic(sim,
+                        init_images,
+                        interpolations=interpolations,
+                        spring_constant=k,
+                        name=simname,
+                        )
 
     # Finally start the energy band relaxation
-    neb.relax(max_steps=maxst,
-              save_vtk_steps=save_every,
-              save_npy_steps=save_every,
-              stopping_dmdt=1e-2
+    neb.relax(max_iterations=maxst,
+              save_vtks_every=save_every,
+              save_npys_every=save_every,
+              stopping_dYdt=stopping_dYdt
               )
 
 # -----------------------------------------------------------------------------
@@ -197,7 +201,7 @@ interp = [16]
 
 # Define different NEBM spring constant k for multiple simulations
 # Here we only use 1e10
-krange = ['1e10']
+krange = ['1e4']
 
 # Timing variables (we will save it to a file)
 f = open('timings.dat', 'w')
