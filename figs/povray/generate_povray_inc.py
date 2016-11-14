@@ -22,18 +22,12 @@ Contact to: d.i.cortes@soton.ac.uk
 # FIDIMAG Simulation imports:
 from fidimag.atomistic import Sim
 from fidimag.common import CuboidMesh
-from fidimag.atomistic import DMI
-from fidimag.atomistic import UniformExchange
-from fidimag.atomistic import Zeeman
-from fidimag.atomistic import Constant
 from os import listdir
 import re
 
 # Import physical constants from fidimag
-const = Constant()
+import fidimag.common.constant as const
 
-# Import the NEB method
-from fidimag.common.neb_cartesian import NEB_Sundials
 
 # Numpy utilities
 import numpy as np
@@ -58,9 +52,9 @@ files_list = sorted(files_list,
                     )
 
 # Use the largest step from the files directory
-sk = npys_folder + files_list[-1] + '/image_0.npy'
-fm = npys_folder + files_list[-1] + '/image_17.npy'
-ds = npys_folder + files_list[-1] + '/image_11.npy'
+sk = npys_folder + files_list[-1] + '/image_000000.npy'
+fm = npys_folder + files_list[-1] + '/image_000017.npy'
+ds = npys_folder + files_list[-1] + '/image_000011.npy'
 
 states = {'skyrmion': sk, 'ferromagnetic': fm, 'destruction': ds}
 
