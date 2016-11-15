@@ -6,7 +6,7 @@ NEBM Simulation for a toy model made of Fe-like atoms arranged in a square
 lattice. This system is described by 21 x 21 spins with interfacial DMI
 
 A very strong magnetic field B is applied perpendicular to the sample, which
-stabilises a metastable skyrmion. The ground state is the uniform state.
+stabilises a metastable skyrmion. The ground state is the uniform state
 
 For the NEBM we use Geodesic distances and vector projections into the tangents
 space
@@ -17,6 +17,8 @@ Magnetic parameters:
     B = 25 T        Magnetic Field
     mu_s = 2 mu_B   Magnetic moment
 
+This file also produces a data file with a cubic interpolation for the energy
+band, using the information from the tangents
 
 Updated by David Cortes on Tue 08 Nov 2016
 University of Southampton
@@ -131,6 +133,11 @@ def relax_neb(k, maxst, simname, init_im, interp,
               save_npys_every=save_every,
               stopping_dYdt=stopping_dYdt
               )
+
+    # Produce a file with the data from a cubic interpolation for the band
+    interp_data = np.zeros((200, 2))
+    interp_data[:, 0], interp_data[:, 1] = neb.compute_polynomial_approximation(200)
+    np.savetxt(simname + 'interpolation.dat', interp_data)
 
 # -----------------------------------------------------------------------------
 

@@ -85,7 +85,7 @@ ax.set_xlim([-1, 18])
 
 # -----------------------------------------------------------------------------
 
-folder = 'climbing_image_gif/'
+folder = 'climbing_image_snaps/'
 if not os.path.exists(folder):
     os.makedirs(folder)
 

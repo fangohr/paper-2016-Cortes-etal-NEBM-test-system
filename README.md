@@ -3,10 +3,10 @@
 ## NEBM Testing System
 
 This repository contains a script to simulate a spin system proposed by
-Bessarab et al. [1] using the Nudged Elastic Band Method, which
-was implemented in our finite differences
-code [Fidimag](https://github.com/fangohr/fidimag) and published
-in Cortés-Ortuño et al. [2]
+Bessarab et al. [1] using the Nudged Elastic Band Method, which was implemented
+in our finite differences code
+[Fidimag](http://computationalmodelling.github.io/fidimag/) and published in
+Cortés-Ortuño et al. [2]
 
 The system is a test model of 21 by 21 magnetic spins, with an interfacial
 Dzyaloshinskii-Moriya interaction (DMI), where the skyrmion is a metastable
@@ -23,24 +23,43 @@ atomistic formalism with the following magnetic parameters:
 
 ## Scripts
 
-To run these simulations we need a working copy of Fidimag.
-The first step is to relax the skyrmionic and ferromagnetic states,
-which is done in the `relaxation` folder. Then we use the
-magnetisation files to start the NEBM. We can do this using
-the `Makefile` in a terminal:
+To run these simulations we need a working copy of Fidimag.  The first step is
+to relax the skyrmionic and ferromagnetic states, which is done in the
+`relaxation` folder. Then we use the magnetisation files to start the NEBM. We
+can do this using the `Makefile` in a terminal:
 
 ```bash
     make relaxation
     make nebm
     make plot
 ```
+ 
+The magnetisation profile files are saved in the `npys/` folder and for
+visualisation, VTK files are saved in the `vtks/` directory. Every folder name
+indicates at the end the step of the NEBM and inside there is a file for every
+image of the energy band, i.e. 17 files.  The NEBM simulation also produce a
+file with data from a cubic interpolation of the band which is used in the
+plotting script.
 
-The last step is optional and generates a PDF file with the final energy band,
-with the annotated images, this requires `Matplotlib`.  The magnetisation
-profile files are saved in the `npys/` folder and for visualisation, VTK files
-are saved in the `vtks/` directory. Every folder name indicates at the end the
-step of the NEBM and inside there is a file for every image of the energy band,
-i.e. 17 files.
+The `plot` step is optional and generates a PDF file with the final energy
+band, with the annotated images and interpolated band. This requires
+`Matplotlib`.  
+
+### Climbing Image NEBM
+
+We also provide a script to test the Climbing Image NEBM (CI-NEBM). For this
+case, we firstly over-relax the band as in the NEBM, in order to have a poor
+resolution at the saddle point region, and then we apply the climbing image
+technique to the 12th image of the band. This image will then climb up in
+energy and sit at the top of the saddle point. To observe this effect we
+created a script to generate an animation, by plotting every step of the
+climbing image process. We can then use the images to generate a GIF or a
+video. Thus, to run the CI-NEBM and generate the images we do:
+
+```bash
+    make climbing
+    make plot_climbing
+```
 
 ## Figures
 

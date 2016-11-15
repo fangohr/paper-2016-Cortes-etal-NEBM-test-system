@@ -30,9 +30,8 @@ def modify_splines(ax, lwd=0.75, col='0.8'):
 x_scale = 1
 meV = 1e-3 * 1.602e-19
 
-# We load the last step. The first column is the step number, which
-# we get rid of in the dms file (dms are the differences between
-# images)
+# We load the last step. The first column is the step number, which we get rid
+# of in the dYs file (dYs are the differences between images)
 data_energy = np.loadtxt('neb_21x21-spins_fm-sk_'
                          'atomic_k1e4_energy.ndt')[-1]
 data_dYs = np.loadtxt('neb_21x21-spins_fm-sk'
@@ -53,14 +52,22 @@ for i in range(len(data_dYs)):
 
 # -----------------------------------------------------------------------------
 
+# Cubic Interpolation of the energy band
+interp_data = np.loadtxt('neb_21x21-spins_fm-sk_atomic_k1e4interpolation.dat')
+# Scale the energy and make it relative to the sk energy:
+interp_data[:, 1] /= meV
+interp_data[:, 1] = interp_data[:, 1] - interp_data[:, 1][0]
+
+# -----------------------------------------------------------------------------
+
 fig = plt.figure(figsize=(10, 6))
 ax = fig.add_subplot(111)
 
-# The label would show the total number of nebm steps
-ax.plot(dYs, (data_energy[1:] - sk_energy) / meV, 'ko-',
-        lw=2, ms=8,
-        # label=r'$k=10^{10}$ /' + ' {} Steps'.format(int(data1e10_energy[0]))
-        )
+# Interpolation data
+ax.plot(interp_data[:, 0], interp_data[:, 1], '-', lw=3, color='#FF5900')
+
+# Energy from the images
+ax.plot(dYs, (data_energy[1:] - sk_energy) / meV, 'ko', ms=8)
 
 # Decorations
 remove_ticks(ax)
@@ -82,7 +89,7 @@ ax.set_xlim([-1, 15])
 
 # Annotate numbers extracting the position
 # from the  plot curve and shift the y position a little
-x, y = ax.lines[0].get_data()[0], ax.lines[0].get_data()[1]
+x, y = ax.lines[1].get_data()[0], ax.lines[1].get_data()[1]
 for i in range(18):
     ax.text(x[i], y[i] + 1.5,
             '{}'.format(i),

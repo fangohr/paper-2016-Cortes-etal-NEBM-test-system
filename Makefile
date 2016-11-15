@@ -17,6 +17,10 @@ plot:
 	echo "Generating Energy Bands plot"
 	python plot_ebds.py
 
+plot_climbing:
+	echo "Generating snapshots for the Climbing Image NEBM simulation"
+	python generate_snapshots_climbing_image.py
+
 clean:
 	rm -f *.ndt timings.dat energy_bands.pdf
 	rm -f -r npys/
