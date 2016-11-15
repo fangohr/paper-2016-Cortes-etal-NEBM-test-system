@@ -86,9 +86,9 @@ sim.add(dmi)
 sim.add(Zeeman((0, 0, 25.)))
 
 # Tune the damping for faster convergence
-sim.alpha = 0.5
+sim.driver.alpha = 0.5
 # Remove precession
-sim.do_precession = False
+sim.driver.do_precession = False
 
 # Relax the system
 # The last state is saved automatically and we also save every 100 steps

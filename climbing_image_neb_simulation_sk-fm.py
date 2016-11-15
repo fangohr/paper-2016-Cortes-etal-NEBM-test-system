@@ -43,6 +43,9 @@ from fidimag.common.nebm_geodesic import NEBM_Geodesic
 # Numpy utilities
 import numpy as np
 
+import glob
+import re
+
 # MESH ------------------------------------------------------------------------
 # This is a 21x21 spins in a square lattice with a lattice constant of 5
 # angstrom and PBCs
@@ -191,9 +194,12 @@ relax_neb(1e4, 2000,
           )
 
 
-# Now we set the relaxed band as initial state
-init_im = [np.load('npys/relax_neb_21x21-spins_fm-sk_atomic_k1e4_169/'
-                   'image_{:06}.npy'.format(i)) for i in range(18)]
+# Now we set the relaxed band as initial state (use the latest NEBM step)
+initial_state_folder = sorted(glob.glob('npys/relax_neb_21x21-spins_fm-sk_atomic_k1e4_*'),
+                              key=lambda f: int(re.search(r'(?<=k1e4_)\d+', f).group(0))
+                              )[-1]
+init_im = [np.load(initial_state_folder +
+                   '/image_{:06}.npy'.format(i)) for i in range(18)]
 
 # The 12th image is the one with largest energy, we make it climb up
 # in energy along the band

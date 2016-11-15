@@ -93,9 +93,9 @@ sim.add(dmi)
 sim.add(Zeeman((0, 0, 25.)))
 
 # Tune the damping for faster convergence
-sim.alpha = 0.5
+sim.driver.alpha = 0.5
 # Remove precession
-sim.do_precession = False
+sim.driver.do_precession = False
 
 # Relax the system
 # The last state is saved automatically and we also save every 100 steps
@@ -103,7 +103,7 @@ sim.do_precession = False
 # For the skyrmion we reduce the tolerances since
 # the system produces relatively large errors using the default values
 # (although the energy fluctuations are unnoticeable)
-sim.set_tols(rtol=1e-10, atol=1e-12)
+sim.driver.set_tols(rtol=1e-10, atol=1e-12)
 sim.relax(dt=1e-13,
           stopping_dmdt=0.01,
           max_steps=5000,

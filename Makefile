@@ -6,8 +6,12 @@ relaxation:
 	cd relaxation && python skyrmion.py
 
 nebm:
-	echo "Starting NEBM relaxation with k=1e10 and 1e11"
+	echo "Starting NEBM relaxation"
 	python neb_simulation_sk-fm.py
+
+climbing:
+	echo "Starting Climbing Image NEBM simulation"
+	python climbing_image_neb_simulation_sk-fm.py
 
 plot:
 	echo "Generating Energy Bands plot"
