@@ -1,3 +1,6 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.167870.svg)](https://doi.org/10.5281/zenodo.167870)
+
+
 # paper-2015-Cortes-etal
 
 ## NEBM Testing System
