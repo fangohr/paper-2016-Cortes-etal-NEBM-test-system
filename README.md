@@ -5,8 +5,7 @@
 This repository contains a script to simulate a spin system proposed by
 Bessarab et al. [1] using the Nudged Elastic Band Method, which was implemented
 in our finite differences code
-[Fidimag](http://computationalmodelling.github.io/fidimag/) and published in
-Cortés-Ortuño et al. [2]
+[Fidimag](http://computationalmodelling.github.io/fidimag/).
 
 The system is a test model of 21 by 21 magnetic spins, with an interfacial
 Dzyaloshinskii-Moriya interaction (DMI), where the skyrmion is a metastable
@@ -75,5 +74,3 @@ where the skyrmion is destroyed:
 and activation energy of magnetic transitions, applied to skyrmion and
 antivortex annihilation*.  Computer Physics Communications **196**, 1–37 (2015).
 URL http://linkinghub.elsevier.com/retrieve/pii/S0010465515002696
-
-[2] Cortés-Ortuño, D. et al, ... Nature(?)
